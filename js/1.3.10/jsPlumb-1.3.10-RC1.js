@@ -3797,8 +3797,8 @@ between this method and jsPlumb.reset).
 						
 						td = jsPlumb.extend({}, td);
 						td.o = jsPlumb.extend({}, td.o);
-						td.o.centerx += dx; td.o.left += dx; td.o.right  += dx;
-						td.o.centery += dy; td.o.top  += dy; td.o.bottom += dy;					
+						td.o.centerx += dx; /*td.o.left += dx; td.o.right  += dx;*/
+						td.o.centery += dy; /*td.o.top  += dy; td.o.bottom += dy;*/
 					}
 					if (!sourceContinuous) {
 						var loc = conn.endpoints[0].anchor;
@@ -3807,8 +3807,8 @@ between this method and jsPlumb.reset).
 						sd = jsPlumb.extend({}, sd);
 						
 						sd.o = jsPlumb.extend({}, sd.o);
-						sd.o.centerx += dx; sd.o.left += dx; sd.o.right  += dx;
-						sd.o.centery += dy; sd.o.top  += dy; sd.o.bottom += dy;
+						sd.o.centerx += dx; /*sd.o.left += dx; sd.o.right  += dx;*/
+						sd.o.centery += dy; /*sd.o.top  += dy; sd.o.bottom += dy;*/
 					}
 
 	                if (targetId == sourceId && (sourceContinuous || targetContinuous)) {
