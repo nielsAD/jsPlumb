@@ -3790,6 +3790,26 @@ between this method and jsPlumb.reset).
 
 	                var td = _getCachedData(targetId),
 						sd = _getCachedData(sourceId);
+					if (!targetContinuous) {
+						var loc = conn.endpoints[1].anchor;
+						var dx = loc.x * td.o.width;
+						var dy = loc.y * td.o.height;
+						
+						td = jsPlumb.extend({}, td);
+						td.o = jsPlumb.extend({}, td.o);
+						td.o.centerx += dx; td.o.left += dx; td.o.right  += dx;
+						td.o.centery += dy; td.o.top  += dy; td.o.bottom += dy;					
+					}
+					if (!sourceContinuous) {
+						var loc = conn.endpoints[0].anchor;
+						var dx = loc.x * td.o.width;
+						var dy = loc.y * td.o.height;
+						sd = jsPlumb.extend({}, sd);
+						
+						sd.o = jsPlumb.extend({}, sd.o);
+						sd.o.centerx += dx; sd.o.left += dx; sd.o.right  += dx;
+						sd.o.centery += dy; sd.o.top  += dy; sd.o.bottom += dy;
+					}
 
 	                if (targetId == sourceId && (sourceContinuous || targetContinuous)) {
 	                    // here we may want to improve this by somehow determining the face we'd like
@@ -3801,7 +3821,9 @@ between this method and jsPlumb.reset).
 	                else {
 	                    if (!o) {
 	                        o = calculateOrientation(sourceId, targetId, sd.o, td.o);
-	                        orientationCache[oKey] = o;
+							if (sourceContinuous && targetContinuous) {
+								orientationCache[oKey] = o;
+							}
 	                        // this would be a performance enhancement, but the computed angles need to be clamped to
 	                        //the (-PI/2 -> PI/2) range in order for the sorting to work properly.
 	                    /*  orientationCache[oKey2] = {
@@ -3887,10 +3909,12 @@ between this method and jsPlumb.reset).
 						return continuousAnchorLocations[params.element.id] || [0,0];
 					},
 					getCurrentLocation : function(endpoint) {
-						return continuousAnchorLocations[endpoint.id] || [0,0];
+						var loc = (endpoint && endpoint.id) ? continuousAnchorLocations[endpoint.id] : undefined;
+						return loc || [0,0];
 					},
 					getOrientation : function(endpoint) {
-						return continuousAnchorOrientations[endpoint.id] || [0,0];
+						var or = (endpoint && endpoint.id) ? continuousAnchorOrientations[endpoint.id] : undefined;
+						return or || [0,0];
 					},
 					isDynamic : true,
 					isContinuous : true
